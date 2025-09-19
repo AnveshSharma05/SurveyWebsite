@@ -1,9 +1,13 @@
 // components/Footer.js
+import './styles.css';
 function Footer() {
   return (
-    <footer className="bg-neutral text-white p-md text-center">
-      <p>&copy; 2025 My Survey App. All rights reserved.</p>
-    </footer>
+    <div>
+       {/* Footer */}
+      <footer className="bg-darkblue text-white p-6 text-center">
+        <p>&copy; 2025 My Survey App. All rights reserved.</p>
+      </footer>
+    </div>
   );
 }
 

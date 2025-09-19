@@ -1,4 +1,6 @@
 import '../../../styles.css';
+import GetStartedButton from './components/client/getStartedButton';
+
 export default function Home() {
   return (
     <main className="bg-white font-sans text-neutral min-h-screen flex flex-col">
@@ -26,9 +28,7 @@ export default function Home() {
             <p className="text-lg mb-6">
               Create beautiful, engaging surveys and forms that inspire powerful feedback and inform smarter business decisions.
             </p>
-            <button className="bg-darkblue px-6 py-3 rounded-md hover:bg-lightblue font-semibold text-white">
-              Get started free
-            </button>
+            <GetStartedButton />
           </div>
           {/* Right image */}
           <div>
