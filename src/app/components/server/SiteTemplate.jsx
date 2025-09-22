@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-const NonLoginLayout = (props) => {
+const SiteTemplate = (props) => {
     
     const { children } = props;
     return (
@@ -14,5 +14,5 @@ const NonLoginLayout = (props) => {
     );
 }
 
-export default NonLoginLayout;
+export default SiteTemplate;
 

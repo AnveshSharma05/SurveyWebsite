@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.9.0",
     "argon2": "^0.44.0",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
@@ -17,7 +18,9 @@
     "mongoose": "^8.18.1",
     "next": "15.5.2",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "react-icons": "^5.5.0",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",

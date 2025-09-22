@@ -1,5 +1,4 @@
 // components/Footer.js
-import './styles.css';
 function Footer() {
   return (
     <div>

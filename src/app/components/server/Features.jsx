@@ -1,5 +1,4 @@
 // components/Features.js
-import './styles.css';
 
 function Features() {
   return (

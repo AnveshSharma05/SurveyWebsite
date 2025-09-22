@@ -1,12 +1,12 @@
 import React from 'react';
 import GetStartedButton from '../client/getStartedButton';
-import './styles.css';
+
 
 function Hero() {
   return (
     <div>
     {/* Hero Section */}
-      <section className="bg-lightblue py-16">
+      <section className="bg-offwhite py-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center px-6">
           {/* Left content */}
           <div>
@@ -23,7 +23,7 @@ function Hero() {
           {/* Right image */}
           <div>
             <img
-              src="/hero-graphic.png"
+              src="https://www.kindpng.com/picc/m/250-2505473_survey-vector-hd-png-download.png"
               alt="Survey dashboard preview"
               className="rounded-lg shadow-md"
             />

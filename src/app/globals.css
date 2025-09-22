@@ -24,3 +24,20 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* styles.css */
+.bg-darkblue {
+  background-color: #4f05a4;
+}
+
+.bg-lightblue {
+  background-color: #ADD8E6;
+}
+
+.bg-offwhite {
+  background-color: #F7F7F7;
+}
+
+.text-darkblue {
+  color: #8687f2;
+}
