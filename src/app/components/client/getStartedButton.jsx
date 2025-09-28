@@ -5,56 +5,51 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { IoMdClose } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
-import { toggle, setTrue, setFalse } from "../../../store/validEmail";
+import { createSurvey } from "../../../store/surveySlice";
 
 const GetStartedButton = () => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const emailValue = useSelector((state) => state.surveyItem.emailValue);
   const router = useRouter();
 
-  const isValidEmail = useSelector((state) => state.validEmail.value);
+  // const isValidEmail = useSelector((state) => state.validEmail.value);
   const dispatch = useDispatch();
 
-  // Validate email whenever it changes
   useEffect(() => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email === "") {
-      dispatch(setFalse()); // empty email is invalid
-    } else if (emailRegex.test(email)) {
-      dispatch(setTrue()); // valid email
-    } else {
-      dispatch(setFalse()); // invalid email
+    console.log("Email in Redux Store:", emailValue);
+    if (!emailValue == "" || !emailValue == null){
+      setShowModal(false);
+      router.push("/surveyPage?email=" +emailValue);
     }
-  }, [email, dispatch]);
+    // console.log("Is Valid Email:", isValidEmail);
+  }, [emailValue]);
+  const validEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return false; 
+    } else {
+      return true;
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const emailID = event.target.email.value;
+    setEmail(emailID);
+
     setErrorMessage(""); // reset previous errors
-
-    if (!isValidEmail) {
-      setErrorMessage("Please enter a valid email");
-      return;
-    }
-
-    try {
-      const response = await axios.post("/api/register", { email, password });
-      console.log(response.data);
-
-      if (response.data.message === "User registered successfully") {
-        setShowModal(false);
-        router.push("/login");
-      }
-    } catch (error) {
-      console.error(error);
-      if (error.response?.data?.error) {
-        setErrorMessage(error.response.data.error);
-      } else {
-        setErrorMessage("Server error. Please try again later.");
-      }
-    }
+    if (emailID === null || emailID === "") {
+      setErrorMessage("Email cannot be empty");
+      //dispatch(setFalse()); // empty email is invalid
+    } 
+    else if (!validEmail(emailID)){
+      setErrorMessage("Enter Valid Email Id");
+    } else{
+      dispatch(createSurvey(emailID));
   };
+}
 
   return (
     <div>
@@ -75,28 +70,22 @@ const GetStartedButton = () => {
               <IoMdClose className="text-2xl" />
             </button>
             <h2 className="text-2xl font-bold mb-4">Get Started</h2>
-
-            {errorMessage && <p className="text-red-500 mb-2">{errorMessage}</p>}
-
             <form onSubmit={handleSubmit}>
               <label className="block mb-2" htmlFor="email">
                 Email
               </label>
               <input
-                type="email"
+                type="text"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                // value={email}
+                // onChange={(e) => setEmail(e.target.value)}
                 className="block w-full p-2 mb-2 border border-gray-400 rounded"
                 required
               />
-
-              {/* Only show this if email is invalid */}
-              {!isValidEmail && email && (
-                <div className="error-message text-red-500 mb-2">
-                  Enter Valid Email Id
-                </div>
-              )}
+              <div className="error-message text-red-500 mb-2">
+                  {errorMessage}
+              </div>
 
               <button
                 type="submit"
