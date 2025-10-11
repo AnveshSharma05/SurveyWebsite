@@ -8,7 +8,7 @@ function Header() {
   const emailValue = useSelector((state) => state.surveyItem.emailValue);
 
   return (
-      <header className="bg-darkblue text-white p-6 shadow-md">
+      <header className="bg-darkblue text-white p-6 shadow-md" >
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-semibold">My Survey App</h1>
           <nav className="space-x-6">
