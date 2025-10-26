@@ -7,20 +7,9 @@ import UserProfile from "../components/client/UserProfile";
 export default function FormBuilder() {
   const [selectedType, setSelectedType] = useState("Short answer");
   const [showDropdown, setShowDropdown] = useState(false);
-  const emailValue = useSelector((state) => state.surveyItem.emailValue);
+  const emailValue = useSelector((state) => state.survey.emailValue);
 
-  const questionTypes = [
-    "Short answer",
-    "Paragraph",
-    "Multiple choice",
-    "Checkboxes",
-    "Dropdown",
-    "File upload",
-    "Linear scale",
-    "Rating",
-    "Multiple choice grid",
-    "Checkbox grid",
-  ];
+  const questionTypes = ["Single Choice", "Multiple Choice", "Short Answer"];
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col font-sans">

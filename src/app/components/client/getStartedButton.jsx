@@ -11,7 +11,7 @@ const GetStartedButton = () => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const emailValue = useSelector((state) => state.surveyItem.emailValue);
+  const emailValue = useSelector((state) => state.survey.emailValue);
   const router = useRouter();
 
   // const isValidEmail = useSelector((state) => state.validEmail.value);

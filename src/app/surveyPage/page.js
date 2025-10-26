@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import SiteTemplate from "@/app/components/server/SiteTemplate";
 
 export default function SurveyPage() {
-  const emailValue = useSelector((state) => state.surveyItem.emailValue);
+  const emailValue = useSelector((state) => state.survey.emailValue);
   const router = useRouter();
 
   const handleCreateFromScratchClick = () => {

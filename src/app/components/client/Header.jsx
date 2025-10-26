@@ -5,7 +5,7 @@ import { useSelector} from "react-redux";
 function Header() {
   
 //define redux email variable to update header component with email name once user inputs their email
-  const emailValue = useSelector((state) => state.surveyItem.emailValue);
+  const emailValue = useSelector((state) => state.survey.emailValue);
 
   return (
       <header className="bg-darkblue text-white p-6 shadow-md" >
