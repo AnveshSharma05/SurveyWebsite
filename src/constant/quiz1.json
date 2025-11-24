@@ -1,0 +1,51 @@
+{
+  "email": "PrashantSrivastava19@gmail.com",
+  "survey": [
+    {
+      "surveyId": "PrashantSrivastava19@gmail.com_sandisk_unicID",
+      "surveyTitle": "Get emp details",
+      "surveyDescription": "jjfldsajfl fdsaf dafj adsfj dsfdja ;dsaf asdf asdf jas",
+      "status": "save",
+      "surveyDetails": [
+        {
+          "qesTitle": "What is your gender?",
+          "qesValue": ["Male", "Female", "Other"],
+          "qesType": "singleChoice"
+        },
+        {
+          "qesTitle": "What is your favourite sport?",
+          "qesValue": ["cricket", "tennis", "golf", "hockey"],
+          "qesType": "multiChoice"
+        },
+        {
+          "qesTitle": "What is your birth city?",
+          "qesValue": "",
+          "qesType": "shortanswer"
+        }
+      ]
+    }, 
+    {
+      "surveyId": "PrashantSrivastava19@gmail.com_sandisk_unicID1",
+      "surveyTitle": "Get emp details",
+      "surveyDescription": "jjfldsajfl fdsaf dafj adsfj dsfdja ;dsaf asdf asdf jas",
+      "status": "save",
+      "surveyDetails": [
+        {
+          "qesTitle": "What is your gender?",
+          "qesValue": ["Male", "Female", "Other"],
+          "qesType": "singleChoice"
+        },
+        {
+          "qesTitle": "What is your favourite sport?",
+          "qesValue": ["cricket", "tennis", "golf", "hockey"],
+          "qesType": "multiChoice"
+        },
+        {
+          "qesTitle": "What is your birth city?",
+          "qesValue": "",
+          "qesType": "shortanswer"
+        }
+      ]
+    }
+  ]
+}

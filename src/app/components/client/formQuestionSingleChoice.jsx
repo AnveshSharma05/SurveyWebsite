@@ -18,7 +18,7 @@ import React, { useState } from "react";
 const DEFAULT_BOX = {
   title: "Question",
   type: "single",
-  choices: ["Option 1"],
+  choices: ["Option 1", "Option 2", "Option 3"],
   answer: "",
 };
 
@@ -27,12 +27,12 @@ export default function BoxComponent({
   onDelete,
   onDuplicate,
 }) {
-  const [title, setTitle] = useState(initialData.title);
+  const [title, setTitle] = useState(initialData.title);  
   const [type, setType] = useState(initialData.type);
   const [choices, setChoices] = useState(initialData.choices);
   const [answer, setAnswer] = useState(initialData.answer);
 
-  const addChoice = () => setChoices([...choices, "New Option"]);
+  const addChoice = () => setChoices([...choices, `Option ${choices.length + 1}`]);
 
   const updateChoice = (i, value) => {
     const copy = [...choices];

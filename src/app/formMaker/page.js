@@ -5,6 +5,7 @@ import { ChevronDown, Image, Type, Video, Copy, Plus } from "lucide-react";
 
 import UserProfile from "../components/client/UserProfile";
 import BoxComponent from "../components/client/formQuestionSingleChoice";
+//import surveyExport from "../components/client/surveyExport";
 
 export default function FormBuilder() {
   const [selectedType, setSelectedType] = useState("Short answer");
@@ -28,15 +29,13 @@ export default function FormBuilder() {
 
   // DUPLICATE
   const duplicateBox = (id) => {
-    setBoxes((prev) => {
-      const box = prev.find((b) => b.id === id);
-      return [
-        ...prev,
-        {
-          ...box,
-          id: crypto.randomUUID(),
-        },
-      ];
+    setBoxes((prevBoxes) => {
+      const box = prevBoxes.find((b) => b.id === id);
+      if (box) {
+        const newBox = { ...box, id: crypto.randomUUID() };
+        return [...prevBoxes, newBox];
+      }
+      return prevBoxes;
     });
   };
 
@@ -70,6 +69,7 @@ export default function FormBuilder() {
           {boxes.map((box) => (
             <BoxComponent
               key={box.id}
+              id={box.id}
               onDelete={() => deleteBox(box.id)}
               onDuplicate={() => duplicateBox(box.id)}
             >
