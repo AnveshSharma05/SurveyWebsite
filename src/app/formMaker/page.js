@@ -1,16 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { ChevronDown, Image, Type, Video, Copy, Plus } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  ChevronDown,
+  Image,
+  Type,
+  Video,
+  Copy,
+  Plus,
+  Save,
+} from "lucide-react";
 
 import UserProfile from "../components/client/UserProfile";
 import BoxComponent from "../components/client/formQuestionSingleChoice";
 //import surveyExport from "../components/client/surveyExport";
 
+const DEFAULT_BOX = {
+  title: "Question",
+  type: "single",
+  choices: ["Option 1", "Option 2", "Option 3"],
+  answer: "",
+};
+
 export default function FormBuilder() {
   const [selectedType, setSelectedType] = useState("Short answer");
   const [showDropdown, setShowDropdown] = useState(false);
   const emailValue = useSelector((state) => state.survey.emailValue);
+  const searchParams = useSearchParams();
+  const formParam = searchParams.get("form");
 
   const questionTypes = ["Single Choice", "Multiple Choice", "Short Answer"];
 
@@ -18,13 +36,55 @@ export default function FormBuilder() {
   // State that tracks all question boxes
   // --------------------------------------------------------------------------
   const [boxes, setBoxes] = useState([
-    { id: crypto.randomUUID(), type: "Single Choice" },
-    { id: crypto.randomUUID(), type: "Short Answer" },
+    { id: crypto.randomUUID(), ...DEFAULT_BOX },
+    {
+      id: crypto.randomUUID(),
+      title: "Short Question",
+      type: "short",
+      choices: [],
+      answer: "",
+    },
   ]);
+
+  // SURVEY TITLE
+  const [surveyTitle, setSurveyTitle] = useState("My Survey");
+
+  // LOAD FORM IF PARAM
+  useEffect(() => {
+    if (formParam) {
+      fetch(`/api/getForm?file=${formParam}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const survey = data.survey[0];
+          setSurveyTitle(survey.surveyTitle);
+          const loadedBoxes = survey.surveyDetails.map((detail) => ({
+            id: crypto.randomUUID(),
+            title: detail.qesTitle,
+            type:
+              detail.qesType === "singleChoice"
+                ? "single"
+                : detail.qesType === "multiChoice"
+                ? "multiple"
+                : "short",
+            choices: Array.isArray(detail.qesValue) ? detail.qesValue : [],
+            answer: typeof detail.qesValue === "string" ? detail.qesValue : "",
+          }));
+          setBoxes(loadedBoxes);
+        })
+        .catch((err) => console.error("Failed to load form:", err));
+    }
+  }, [formParam]);
 
   // DELETE
   const deleteBox = (id) => {
     setBoxes((prev) => prev.filter((b) => b.id !== id));
+  };
+
+  // UPDATE
+  const updateBox = (id, newData) => {
+    setBoxes((prev) =>
+      prev.map((b) => (b.id === id ? { ...b, ...newData } : b))
+    );
   };
 
   // DUPLICATE
@@ -45,9 +105,46 @@ export default function FormBuilder() {
       ...prev,
       {
         id: crypto.randomUUID(),
-        type: "Single Choice",
+        ...DEFAULT_BOX,
       },
     ]);
+  };
+
+  // SAVE SURVEY
+  const handleSave = async () => {
+    const surveyData = {
+      surveyId: `${emailValue}_${Date.now()}`,
+      surveyTitle,
+      surveyDescription: "",
+      status: "save",
+      surveyDetails: boxes.map((box) => ({
+        qesTitle: box.title,
+        qesValue: box.type === "short" ? box.answer : box.choices,
+        qesType:
+          box.type === "single"
+            ? "singleChoice"
+            : box.type === "multiple"
+            ? "multiChoice"
+            : "shortanswer",
+      })),
+    };
+
+    try {
+      const response = await fetch("/api/saveSurvey", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailValue, survey: surveyData }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        alert(`Survey saved as ${result.fileName}`);
+      } else {
+        alert("Failed to save survey");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error saving survey");
+    }
   };
 
   return (
@@ -66,92 +163,25 @@ export default function FormBuilder() {
       <div className="flex flex-1 bg-gray-50 p-6">
         {/* MAIN FORM AREA */}
         <div className="flex-1 max-w-4xl mx-auto shrink-0 space-y-6">
+          {/* SURVEY TITLE */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+            <input
+              type="text"
+              value={surveyTitle}
+              onChange={(e) => setSurveyTitle(e.target.value)}
+              placeholder="Enter survey title"
+              className="w-full text-2xl font-bold border-none focus:ring-0 bg-transparent"
+            />
+          </div>
+
           {boxes.map((box) => (
             <BoxComponent
               key={box.id}
-              id={box.id}
+              initialData={box}
+              onUpdate={(newData) => updateBox(box.id, newData)}
               onDelete={() => deleteBox(box.id)}
               onDuplicate={() => duplicateBox(box.id)}
-            >
-              {/* ----------------------------------------------------------
-                  BOX CONTENT (THE QUESTION BODY)
-                 ---------------------------------------------------------- */}
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6">
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-                  {/* Left section: Question + Options */}
-                  <div className="flex-1 mb-4 md:mb-0">
-                    <input
-                      type="text"
-                      placeholder="Question"
-                      className="w-full border-b border-gray-300 text-lg font-medium focus:outline-none focus:border-blue-500 pb-1"
-                    />
-
-                    {/* Example radio options (matches your original) */}
-                    {box.type === "Single Choice" && (
-                      <div className="mt-3 space-y-2 text-sm">
-                        <label className="flex items-center space-x-2">
-                          <input type="radio" name={`q_${box.id}`} />
-                          <span>Option 1</span>
-                        </label>
-                        <label className="flex items-center space-x-2 text-gray-600">
-                          <input type="radio" disabled />
-                          <span>
-                            Add option or{" "}
-                            <span className="text-blue-600 cursor-pointer">
-                              add "Other"
-                            </span>
-                          </span>
-                        </label>
-                      </div>
-                    )}
-
-                    {box.type === "Short Answer" && (
-                      <input
-                        type="text"
-                        placeholder="Short answer text"
-                        className="mt-3 w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 pb-1 text-sm"
-                      />
-                    )}
-                  </div>
-
-                  {/* Right: Dropdown for type selection */}
-                  <div className="relative w-52 border border-gray-300 rounded-md">
-                    <button
-                      onClick={() =>
-                        setShowDropdown(showDropdown === box.id ? null : box.id)
-                      }
-                      className="w-full flex justify-between items-center px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      {box.type}
-                      <ChevronDown className="h-4 w-4" />
-                    </button>
-
-                    {showDropdown === box.id && (
-                      <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 z-10">
-                        {questionTypes.map((type) => (
-                          <button
-                            key={type}
-                            onClick={() => {
-                              setBoxes((prev) =>
-                                prev.map((b) =>
-                                  b.id === box.id ? { ...b, type } : b
-                                )
-                              );
-                              setShowDropdown(false);
-                            }}
-                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                              box.type === type ? "bg-gray-50 font-medium" : ""
-                            }`}
-                          >
-                            {type}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </BoxComponent>
+            ></BoxComponent>
           ))}
         </div>
 
@@ -164,8 +194,11 @@ export default function FormBuilder() {
             <Plus className="h-4 w-4" />
           </button>
 
-          <button className="p-2 border rounded hover:bg-gray-100">
-            <Copy className="h-4 w-4" />
+          <button
+            onClick={handleSave}
+            className="p-2 border rounded hover:bg-gray-100"
+          >
+            <Save className="h-4 w-4" />
           </button>
           <button className="p-2 border rounded hover:bg-gray-100">
             <Type className="h-4 w-4" />

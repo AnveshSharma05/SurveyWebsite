@@ -1,0 +1,27 @@
+{
+  "email": "",
+  "survey": [
+    {
+      "surveyId": "_1765765631430",
+      "surveyTitle": "My Survey",
+      "surveyDescription": "",
+      "status": "save",
+      "surveyDetails": [
+        {
+          "qesTitle": "Question",
+          "qesValue": [
+            "Option 1",
+            "Option 2",
+            "Option 3"
+          ],
+          "qesType": "singleChoice"
+        },
+        {
+          "qesTitle": "Short Question",
+          "qesValue": "This is a test to see if the data file can be stored as a json. ",
+          "qesType": "shortanswer"
+        }
+      ]
+    }
+  ]
+}

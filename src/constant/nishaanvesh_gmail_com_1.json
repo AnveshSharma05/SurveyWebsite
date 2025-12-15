@@ -1,0 +1,36 @@
+{
+  "email": "nishaanvesh@gmail.com",
+  "survey": [
+    {
+      "surveyId": "nishaanvesh@gmail.com_1765765735944",
+      "surveyTitle": "My Survey",
+      "surveyDescription": "",
+      "status": "save",
+      "surveyDetails": [
+        {
+          "qesTitle": "Question",
+          "qesValue": [
+            "Option 1",
+            "Option 2",
+            "Option 3"
+          ],
+          "qesType": "singleChoice"
+        },
+        {
+          "qesTitle": "Short Question",
+          "qesValue": "This is another test to conform that data is being stored correctly in json format. ",
+          "qesType": "shortanswer"
+        },
+        {
+          "qesTitle": "Question",
+          "qesValue": [
+            "Apple",
+            "Bananna",
+            "Orange"
+          ],
+          "qesType": "multiChoice"
+        }
+      ]
+    }
+  ]
+}

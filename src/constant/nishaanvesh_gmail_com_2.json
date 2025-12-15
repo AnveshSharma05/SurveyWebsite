@@ -1,0 +1,27 @@
+{
+  "email": "nishaanvesh@gmail.com",
+  "survey": [
+    {
+      "surveyId": "nishaanvesh@gmail.com_1765765849248",
+      "surveyTitle": "Anvesh Sharma - Survey",
+      "surveyDescription": "",
+      "status": "save",
+      "surveyDetails": [
+        {
+          "qesTitle": "Question",
+          "qesValue": [
+            "Option 1",
+            "Option 2",
+            "Option 3"
+          ],
+          "qesType": "singleChoice"
+        },
+        {
+          "qesTitle": "Short Question",
+          "qesValue": "",
+          "qesType": "shortanswer"
+        }
+      ]
+    }
+  ]
+}

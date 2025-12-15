@@ -23,25 +23,21 @@ const DEFAULT_BOX = {
 };
 
 export default function BoxComponent({
-  initialData = DEFAULT_BOX,
+  initialData,
+  onUpdate,
   onDelete,
   onDuplicate,
 }) {
-  const [title, setTitle] = useState(initialData.title);  
-  const [type, setType] = useState(initialData.type);
-  const [choices, setChoices] = useState(initialData.choices);
-  const [answer, setAnswer] = useState(initialData.answer);
-
-  const addChoice = () => setChoices([...choices, `Option ${choices.length + 1}`]);
+  const addChoice = () => onUpdate({ ...initialData, choices: [...initialData.choices, `Option ${initialData.choices.length + 1}`] });
 
   const updateChoice = (i, value) => {
-    const copy = [...choices];
-    copy[i] = value;
-    setChoices(copy);
+    const newChoices = [...initialData.choices];
+    newChoices[i] = value;
+    onUpdate({ ...initialData, choices: newChoices });
   };
 
   const removeChoice = (i) => {
-    setChoices(choices.filter((_, idx) => idx !== i));
+    onUpdate({ ...initialData, choices: initialData.choices.filter((_, idx) => idx !== i) });
   };
 
   return (
@@ -56,8 +52,8 @@ export default function BoxComponent({
         {/* LEFT: Question Title */}
         <input
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={initialData.title}
+          onChange={(e) => onUpdate({ ...initialData, title: e.target.value })}
           placeholder="Enter your question"
           className="flex-1 text-xl font-semibold border-none focus:ring-0 bg-transparent"
         />
@@ -67,8 +63,8 @@ export default function BoxComponent({
 
           {/* Question Type Selector */}
           <select
-            value={type}
-            onChange={(e) => setType(e.target.value)}
+            value={initialData.type}
+            onChange={(e) => onUpdate({ ...initialData, type: e.target.value })}
             className="border border-gray-300 rounded-md px-3 py-1.5 text-sm bg-white 
                        focus:outline-none focus:border-indigo-500"
           >
@@ -118,15 +114,15 @@ export default function BoxComponent({
       {/* MAIN CHOICES / ANSWERS SECTION                     */}
       {/* ------------------------------------------------- */}
       <div className="mt-4 space-y-3">
-        {(type === "single" || type === "multiple") && (
+        {(initialData.type === "single" || initialData.type === "multiple") && (
           <div className="space-y-2">
 
-            {choices.map((choice, idx) => (
+            {initialData.choices.map((choice, idx) => (
               <div key={idx} className="flex items-center gap-3 bg-gray-50 rounded-md p-2">
 
                 {/* Bullet (radio or checkbox) */}
                 <input
-                  type={type === "single" ? "radio" : "checkbox"}
+                  type={initialData.type === "single" ? "radio" : "checkbox"}
                   disabled
                   className="h-4 w-4"
                 />
@@ -141,7 +137,7 @@ export default function BoxComponent({
                 {/* Delete option */}
                 <button
                   className="text-red-500 hover:text-red-700 text-lg font-bold"
-                  disabled={choices.length === 1}
+                  disabled={initialData.choices.length === 1}
                   onClick={() => removeChoice(idx)}
                 >
                   ✕
@@ -160,12 +156,12 @@ export default function BoxComponent({
           </div>
         )}
 
-        {type === "short" && (
+        {initialData.type === "short" && (
           <input
             type="text"
-            value={answer}
+            value={initialData.answer}
             placeholder="Short answer text"
-            onChange={(e) => setAnswer(e.target.value)}
+            onChange={(e) => onUpdate({ ...initialData, answer: e.target.value })}
             className="w-full border-b border-gray-300 focus:outline-none focus:border-indigo-500 pb-1"
           />
         )}
