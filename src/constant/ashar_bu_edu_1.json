@@ -1,0 +1,35 @@
+{
+  "email": "ashar@bu.edu",
+  "survey": [
+    {
+      "surveyId": "ashar@bu.edu_1767845350868",
+      "surveyTitle": "Anvesh's Survey",
+      "surveyDescription": "",
+      "status": "save",
+      "surveyDetails": [
+        {
+          "qesTitle": "Does this Form Work?",
+          "qesValue": [
+            "Yes",
+            "No",
+            "To Be Decided"
+          ],
+          "qesType": "singleChoice"
+        },
+        {
+          "qesTitle": "Enter Additional Information",
+          "qesValue": "What do",
+          "qesType": "shortanswer"
+        },
+        {
+          "qesTitle": "Select if Met",
+          "qesValue": [
+            "Created with Copilot",
+            "Created with Prashant Uncle"
+          ],
+          "qesType": "multiChoice"
+        }
+      ]
+    }
+  ]
+}

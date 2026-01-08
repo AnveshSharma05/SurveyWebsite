@@ -1,0 +1,30 @@
+{
+  "email": "nishaanvesh@gmail.com",
+  "survey": [
+    {
+      "surveyId": "nishaanvesh@gmail.com_1767843829348",
+      "surveyTitle": "My Survey",
+      "surveyDescription": "",
+      "status": "save",
+      "surveyDetails": [
+        {
+          "qesTitle": "Question",
+          "qesValue": [
+            "Option 1",
+            "Option 2"
+          ],
+          "qesType": "singleChoice"
+        },
+        {
+          "qesTitle": "Question",
+          "qesValue": [
+            "Option 1",
+            "Option 2",
+            "Option 3"
+          ],
+          "qesType": "singleChoice"
+        }
+      ]
+    }
+  ]
+}
