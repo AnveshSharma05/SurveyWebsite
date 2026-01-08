@@ -27,6 +27,7 @@ export default function FormBuilder() {
   const [selectedType, setSelectedType] = useState("Short answer");
   const [showDropdown, setShowDropdown] = useState(false);
   const emailValue = useSelector((state) => state.survey.emailValue);
+  const router = useRouter();
   const searchParams = useSearchParams();
   const formParam = searchParams.get("form");
 
@@ -137,7 +138,8 @@ export default function FormBuilder() {
       });
       const result = await response.json();
       if (result.success) {
-        alert(`Survey saved as ${result.fileName}`);
+        // navigate to demo page for the saved file
+        router.push(`/demo?file=${result.fileName}`);
       } else {
         alert("Failed to save survey");
       }
@@ -162,7 +164,7 @@ export default function FormBuilder() {
 
       <div className="flex flex-1 bg-gray-50 p-6">
         {/* MAIN FORM AREA */}
-        <div className="flex-1 max-w-4xl mx-auto shrink-0 space-y-6">
+        <div className="flex-1 max-w-4xl mx-auto shrink-0 flex flex-col space-y-6">
           {/* SURVEY TITLE */}
           <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
             <input
@@ -183,6 +185,15 @@ export default function FormBuilder() {
               onDuplicate={() => duplicateBox(box.id)}
             ></BoxComponent>
           ))}
+
+          <div className="mt-auto">
+            <button
+              onClick={handleSave}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+            >
+              Demo Survey
+            </button>
+          </div>
         </div>
 
         {/* SIDEBAR ICONS (Add new question etc.) */}
@@ -210,6 +221,8 @@ export default function FormBuilder() {
             <Video className="h-4 w-4" />
           </button>
         </div>
+
+        
       </div>
     </div>
   );
